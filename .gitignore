@@ -1,0 +1,7 @@
+# Exclude the library dependency directory
+libreautomate/**
+
+# Don't commit DLL binaries. We should download them from NuGet
+**dll
+
+automate/**
