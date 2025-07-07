@@ -11,6 +11,23 @@ To install this module, run the following command:
 Install-Module -Name Automate
 ```
 
+### Validate Module Installation
+
+After installing the module, you can validate that it has been installed with this command.
+If you have multiple different versions of the module installed, this command will list all of them.
+
+```pwsh
+Get-Module -ListAvailable -All -Name Automate
+```
+
+### Uninstallation
+
+To uninstall the module from your system, use this command.
+
+```pwsh
+Uninstall-Module -Name Automate -AllVersions
+```
+
 ## Usage
 
 To save / persist window position:
