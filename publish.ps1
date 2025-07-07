@@ -6,7 +6,7 @@ if (Test-Path -Path $TempModuleDir) {
 }
 
 # Recreate the empty temp directory
-$null = mkdir -Path $TempModuleDir
+$null = New-Item -ItemType Directory -Path $TempModuleDir
 
 $Exclude = @(
   '.git'
@@ -25,4 +25,4 @@ $NuGetApiKey = Read-Host -Prompt 'Enter your NuGet API Key'
 Publish-Module -Path $TempModuleDir -NuGetApiKey $NuGetApiKey
 
 # Clean up temporary publishing folder
-Remove-Item -Path $TempModuleDir -Recurse -Force
+#Remove-Item -Path $TempModuleDir -Recurse -Force
