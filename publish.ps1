@@ -25,4 +25,4 @@ $NuGetApiKey = Read-Host -Prompt 'Enter your NuGet API Key'
 Publish-Module -Path $TempModuleDir -NuGetApiKey $NuGetApiKey
 
 # Clean up temporary publishing folder
-#Remove-Item -Path $TempModuleDir -Recurse -Force
+Remove-Item -Path $TempModuleDir -Recurse -Force
