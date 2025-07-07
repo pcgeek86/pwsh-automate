@@ -1,3 +1,7 @@
+# NOTE: Write-Verbose still doesn't work in .psm1 files: https://github.com/PowerShell/PowerShell/issues/4568
+# Use Write-Host for debugging instead, and comment out as necessary, or maybe consider adding a log file
+# that can be enabled / activated using arguments passed into the Import-Module command? 🤔
+
 # Main module file for "automate" module
 
 # Configuration file path
@@ -18,21 +22,23 @@ function Get-LibreAutomate {
     Invoke-WebRequest @Request
     
     # Extract the NuGet package archive so we can load the DLLs
-    Expand-Archive -Path $Request.OutFile -DestinationPath $LibreAutomateDestination
+    $ArchiveDestination = '{0}/libreautomate' -f $PSScriptRoot
+    Expand-Archive -Path $Request.OutFile -DestinationPath $ArchiveDestination
   
     # Clean up the nupkg file after extraction
     Remove-Item -Path $Request.OutFile
   }
 
-  $LibPath = "$PSScriptRoot/libreautomate/lib"
+  $LibPath = '{0}/libreautomate/lib' -f $PSScriptRoot
   
   $LibList = Get-ChildItem -Path $LibPath -Recurse -Include *.dll
   
   $NETVersion = [System.Runtime.InteropServices.RuntimeInformation]::FrameworkDescription
+  # Write-Host -Object ('.NET Runtime version is {0}' -f $NETVersion)
   
   foreach ($Lib in $LibList) {
-    # Write-Host -Object $Lib.FullName
-    if ($Lib.FullName -like '*\net9*' -and $NETVersion -like '*NET 9*') {
+    if ($Lib.FullName -like '*net9*' -and $NETVersion -like '*NET 9*') {
+      # Write-Host -Object ('Attempting to import .NET DLL: {0}' -f $Lib.FullName)
       Add-Type -Path $Lib.FullName
     }
     elseif ($Lib.FullName -like '*\net8*' -and $NETVersion -like '*NET 8*') {
