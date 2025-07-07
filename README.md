@@ -47,3 +47,22 @@ To hide unwanted Windows Terminal windows that might pop up, you can use this co
 ```pwsh
 Get-Windows | ? { $PSItem.Name -and $PSItem.Name.EndsWith('mpv.com') } | % { $PSItem.SetStyle('MINIMIZE') } | Out-Null
 ```
+
+## Publish New Version
+
+For the developer of this module, to publish a new version it's probably easiest to run an
+ephemeral Docker container with the .NET SDK pre-installed. I've had issues getting the .NET SDK
+to be recognized properly on Windows 11.
+
+Run a new container:
+
+```text
+docker run --rm -it --volume=./:/data/ mcr.microsoft.com/dotnet/sdk pwsh
+
+# Inside the container
+cd /data
+./publish.ps1
+
+# Enter NuGet API key, and you're done.
+# You can exit the container.
+```
